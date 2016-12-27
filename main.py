@@ -4,9 +4,13 @@ from nimmy.utils import Map
 
 
 class Bot(Bot):
-    bot_functions = []
+    """
+    extending telepot.Bot
+    """
+    bot_functions = {}
 
     def check_filters(self, filters, msg_object):
+        # checks for any exceptions with filters, find None, true or false
         try:
             f = filters(msg_object)
         except:
@@ -18,12 +22,15 @@ class Bot(Bot):
             return True
 
     def _filter(self, filters, msg):
+        # binding for filter()
         validate = self.check_filters(filters, msg)
         return validate
 
     def filter(self, filter_model):
+        # argumented decoration, returns func with msg
         def decorator(func):
             @wraps(func)
+            # prevents cloning
             def wrapper(msg):
                 message = Map(**msg)
                 if self._filter(filter_model, message):
@@ -31,17 +38,25 @@ class Bot(Bot):
             return wrapper
         return decorator
 
-    def run_forever(self, loop={}, sleep_for=10):
-
+    def run_forever(self, sleep_for=10, **loop):
+        # telepot message_loop with dummy_handler
         print('Loading ...')
         self.message_loop(self.dummy_handler, **loop)
 
         from time import sleep
+        # simple loop sleeps: sleep_for
         while 1:
             sleep(sleep_for)
 
     def add_handle(self, handle):
-        Bot.bot_functions.append(handle)
+        # add filter handles to a list
+        try:
+            Bot.bot_functions[id(self)]
+        except KeyError:
+            Bot.bot_functions[id(self)] = []
+
+        Bot.bot_functions[id(self)].append(handle)
 
     def dummy_handler(self, msg):
-        return [h(msg) for h in Bot.bot_functions]
+        # acts like a handle returns a list of handles and execute
+        return [h(msg) for h in Bot.bot_functions[id(self)]]

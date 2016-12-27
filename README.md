@@ -20,7 +20,7 @@ def adminOnly(msg):
 @bot.filter(adminOnly)
 def handle_this(msg):
     print(msg.chat)
-    bot.sendMessage(msg.chat['id'], 'i am busy.. sweetty')
+    bot.sendMessage(msg.chat['id'], 'hi')
 
 # takes filtered functions as handle, binded on message_loop
 bot.add_handle(handle_this)

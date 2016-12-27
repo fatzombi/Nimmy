@@ -4,7 +4,7 @@ a sadistic pattern/extension for telepot (telegram bot api client)
 this is an extension on top of `telepot`
 
 ## simple example
-`from nimmy import Bot
+```from nimmy import Bot
 from re import match
 
 bot = Bot("TELEGRAM_BOT_API_TOKEN")
@@ -26,4 +26,4 @@ bot.add_handle(handle_this)
 
 # a simple loop
 bot.run_forever()
-`
+```

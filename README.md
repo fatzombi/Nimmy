@@ -6,7 +6,7 @@ this is an extension on top of `telepot`
 ## simple example
 ```python
 from nimmy import Bot
-from re import match
+from re import match, search
 
 bot = Bot("TELEGRAM_BOT_API_TOKEN")
 
@@ -25,6 +25,7 @@ def ping(msg):
 
 # executes only when filtering contents match
 @bot.filter(adminOnly)
+@bot.filter(ping)
 def handle_this(msg):
   from subprocess import check_output
   hostname = msg.filter['text'].group(1)

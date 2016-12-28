@@ -9,31 +9,26 @@ class Bot(Bot):
     """
     bot_functions = {}
 
-    def check_filters(self, filters, msg_object):
+    def _filter(self, filter_model, message, check):
         # checks for any exceptions with filters, find None, true or false
         try:
-            f = filters(msg_object)
+            filters = filter_model(message)
+
+            if check(filters.values()):
+                return filters
         except:
             return False
 
-        if None in f.values():
-            return False
-        else:
-            return f
-
-    def _filter(self, filters, msg):
-        # binding for filter()
-        validate = self.check_filters(filters, msg)
-        return validate
-
-    def filter(self, filter_model):
+    def filter(self, filter_model, check=all):
         # argumented decoration, returns func with msg
         def decorator(func):
             # prevents cloning
             @wraps(func)
             def wrapper(msg):
+                # converts dict to object with utils.Map
                 message = Map(**msg)
-                filterd = self._filter(filter_model, message)
+                filterd = self._filter(filter_model, message, check)
+
                 if filterd:
                     message.filter = filterd
                     return func(message)

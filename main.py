@@ -16,10 +16,10 @@ class Bot(Bot):
         except:
             return False
 
-        if None in f:
+        if None in f.values():
             return False
         else:
-            return True
+            return f
 
     def _filter(self, filters, msg):
         # binding for filter()
@@ -29,11 +29,13 @@ class Bot(Bot):
     def filter(self, filter_model):
         # argumented decoration, returns func with msg
         def decorator(func):
-            @wraps(func)
             # prevents cloning
+            @wraps(func)
             def wrapper(msg):
                 message = Map(**msg)
-                if self._filter(filter_model, message):
+                filterd = self._filter(filter_model, message)
+                if filterd:
+                    message.filter = filterd
                     return func(message)
             return wrapper
         return decorator

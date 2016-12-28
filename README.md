@@ -26,8 +26,10 @@ def ping(msg):
 @bot.filter(ping)
 def handle_this(msg):
   from subprocess import check_output
+
   hostname = msg.filter['text'].group(1)
   response = check_output(['ping', '-c 1', hostname])
+
   bot.sendMessage(msg.chat['id'], response)
 
   # feed the monitor!

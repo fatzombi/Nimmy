@@ -1,11 +1,13 @@
 from setuptools import setup
-
 setup(name='Nimmy',
       version='0.1',
-      description="a sadistic telegram bot api client/pattern built on top of telepot",
-      url='',
+      long_description=read('README.md'),
+      description='a telegram bot api client/pattern built on top of telepot',
+      url='https://github.com/fatzombi/Nimmy',
+      keywords='telepot telegram api client extension',
       author='FATZOMBI',
       author_email='fatzombi@outlook.in',
       license='MIT',
-      packages=['telepot'],
+      install_requires=['telepot'],
+      packages=['nimmy'],
       zip_safe=False)

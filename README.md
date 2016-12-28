@@ -10,7 +10,7 @@ from re import match, search
 
 bot = Bot("TELEGRAM_BOT_API_TOKEN")
 
-# filtering content
+# filter model function returns, keys return None on failure
 def adminOnly(msg):
     return {
         'admin': match('fatzombi', msg.chat['username'])
@@ -23,7 +23,7 @@ def ping(msg):
     }
 
 
-# executes only when filtering contents match
+# executes only when filtering contents match takes filter function and check type: any or all
 @bot.filter(adminOnly)
 @bot.filter(ping)
 def handle_this(msg):

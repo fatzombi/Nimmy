@@ -13,7 +13,7 @@ bot = Bot("TELEGRAM_BOT_API_TOKEN")
 # filtering content
 def adminOnly(msg):
     return [
-        match(msg.chat['username'], 'fatzombi')
+        match('fatzombi', msg.chat['username'])
     ]
 
 # executes only when filtering contents match

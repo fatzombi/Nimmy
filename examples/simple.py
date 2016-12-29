@@ -1,7 +1,8 @@
-from nimmy import Bot
 from re import match, search
+from sys import argv
+from nimmy import Bot
 
-bot = Bot("TELEGRAM_BOT_API_TOKEN")
+bot = Bot(str(argv[1]))
 
 
 def adminOnly(msg):
@@ -16,8 +17,8 @@ def ping(msg):
     }
 
 
-@bot.filter(adminOnly)
-@bot.filter(ping)
+@bot.filter('adminOnly')
+@bot.filter('ping')
 def handle_this(msg):
     from subprocess import check_output
 
@@ -29,5 +30,4 @@ def handle_this(msg):
     print("ping -> " + hostname)
 
 bot.add_handle(handle_this)
-
 bot.run_forever()

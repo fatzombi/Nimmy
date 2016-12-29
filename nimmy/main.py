@@ -1,6 +1,6 @@
 from telepot import Bot
 from functools import wraps
-from utils import Map
+from nimmy.utils import Map
 
 
 class Bot(Bot):
@@ -9,26 +9,32 @@ class Bot(Bot):
     """
     bot_functions = {}
 
-    def _filter(self, filter_model, message, check):
+    def _filter(self, filter_model, message):
+
         # checks for any exceptions with filters, find None, true or false
         try:
             filters = filter_model(message)
-            if check(filters.values()):
+            if all(filters.values()):
+                filters.update({'filter_name': filter_model.__name__})
                 return filters
         except:
-            return False
+            pass
 
-    def filter(self, filter_model, check=all):
+    def filter(self, filter_model):
+
         # argumented decoration, returns func with msg
         def decorator(func):
+
             # prevents cloning
             @wraps(func)
             def wrapper(msg):
+
                 # converts dict to object with utils.Map
                 message = Map(**msg)
-                filterd = self._filter(filter_model, message, check)
+                filterd = self._filter(filter_model, message)
 
                 if filterd:
+                    setattr(message, filterd['filter_name'], filterd)
                     return func(message)
             return wrapper
         return decorator

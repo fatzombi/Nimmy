@@ -1,1 +1,2 @@
-from nimmy import Bot
+from main import Bot
+Bot = Bot

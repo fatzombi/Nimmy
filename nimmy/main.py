@@ -1,6 +1,6 @@
 from telepot import Bot
 from functools import wraps
-from nimmy.utils import Map
+from utils import Map
 
 
 class Bot(Bot):
@@ -29,13 +29,6 @@ class Bot(Bot):
                 filterd = self._filter(filter_model, message, check)
 
                 if filterd:
-                    try:
-                        message.filter
-                    except AttributeError:
-                        message.filter = Map()
-                    finally:
-                        print(message.filter)
-
                     return func(message)
             return wrapper
         return decorator

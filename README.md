@@ -1,5 +1,5 @@
 # Nimmy
-a pattern/extension built on top of `telepot` (telegram bot api client)
+a pattern/extension built on top of telepot (telegram bot api wrapper)
 
 ## example
 ```python

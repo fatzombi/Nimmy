@@ -1,1 +1,1 @@
-from nimmy.main import Bot
+from nimmy import Bot

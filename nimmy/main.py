@@ -1,11 +1,6 @@
 from telepot import Bot
 from functools import wraps
-from nimmy.utils import Map
-
-
-def make_str_callable(string, *args, **kwargs):
-    c = dict(call=string)
-    return c['call'](*args, **kwargs)
+from utils import Map
 
 
 class Bot(Bot):
@@ -17,8 +12,7 @@ class Bot(Bot):
     def _filter(self, filter_model, message, check):
         # checks for any exceptions with filters, find None, true or false
         try:
-            filters = make_str_callable(filter_model, message)
-
+            filters = filter_model(message)
             if check(filters.values()):
                 return filters
         except:
@@ -40,7 +34,7 @@ class Bot(Bot):
                     except AttributeError:
                         message.filter = Map()
                     finally:
-                        setattr(message.filter, filter_model, filterd)
+                        print(message.filter)
 
                     return func(message)
             return wrapper

@@ -37,7 +37,7 @@ class Bot(Bot):
 
     def run_forever(self, sleep_for=10, **loop):
         # telepot message_loop with dummy_handler
-        print('Loading ...')
+        print('Listening ...')
         self.message_loop(self.dummy_handler, **loop)
 
         from time import sleep

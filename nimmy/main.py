@@ -1,6 +1,6 @@
 from telepot import Bot
 from functools import wraps
-from utils import Map
+from nimmy.utils import Map
 
 
 class Bot(Bot):

@@ -5,10 +5,12 @@ from threading import Thread
 
 
 class Bot(Bot):
-    """
-    extending telepot.Bot
-    """
-    bot_functions = {}
+
+    def __init__(self, *args, **kwargs):
+        super(Bot, self).__init__(*args, **kwargs)
+
+        # holds script functions
+        self.scripts = []
 
     def _filter(self, filter_model, message, check):
 
@@ -51,19 +53,14 @@ class Bot(Bot):
             sleep(sleep_for)
 
     def add_handle(self, handle):
-        # add filter handles to a list
-        try:
-            Bot.bot_functions[id(self)]
-        except KeyError:
-            Bot.bot_functions[id(self)] = []
 
-        Bot.bot_functions[id(self)].append(handle)
+        # add filter handles to a list
+        self.scripts.append(handle)
 
     def dummy_handler(self, msg):
 
         # acts like a handle returns a list of handles and execute
-        functions = Bot.bot_functions[id(self)]
-        for script in functions:
+        for script in self.scripts:
 
             # threading to prevent filter blocks (eg: infinite loops)
             t = Thread(target=script, args=(msg, ))

@@ -1,6 +1,7 @@
 from telepot import Bot
 from functools import wraps
 from nimmy.utils import Map
+from threading import Thread
 
 
 class Bot(Bot):
@@ -59,5 +60,11 @@ class Bot(Bot):
         Bot.bot_functions[id(self)].append(handle)
 
     def dummy_handler(self, msg):
+
         # acts like a handle returns a list of handles and execute
-        return [h(msg) for h in Bot.bot_functions[id(self)]]
+        functions = Bot.bot_functions[id(self)]
+        for script in functions:
+
+            # threading to prevent filter blocks (eg: infinite loops)
+            t = Thread(target=script, args=(msg, ))
+            t.start()

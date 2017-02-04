@@ -35,9 +35,6 @@ def handle_this(msg):
   # feed the monitor!
   print("ping -> " + hostname)
 
-# takes filtered functions as handle, binded on message_loop
-bot.add_handle(handle_this)
-
 # a simple run forever loop, takes message_loop args as loop={}
 bot.run_forever()
 ```
